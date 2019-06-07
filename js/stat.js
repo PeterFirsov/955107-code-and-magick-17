@@ -12,15 +12,6 @@ var barHeight = CLOUD_HEIGHT - GAP - FONT_GAP - WIN_GAP - GAP;
 var BAR_WIDTH = 40;
 var center = CLOUD_WIDTH / 2;
 
-var isStorageSupport = true;
-var storage = "";
-
-try {
-storage = localStorage.getItem("name");
-} catch (err) {
-isStorageSupport = false;
-}
-
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
