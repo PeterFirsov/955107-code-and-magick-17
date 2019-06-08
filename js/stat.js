@@ -49,6 +49,6 @@ window.renderStatistics = function (ctx, players, times) {
     }
     ctx.fillRect(CLOUD_X + GAP + TEXT_WIDTH + (GAP * 4 + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP * 2 - FONT_GAP, BAR_WIDTH, -(barHeight * times[i]) / maxTime);
     ctx.fillStyle = '#000';
-    ctx.fillText(Math.round(times[i]), CLOUD_X + GAP + TEXT_WIDTH + (GAP * 4 + BAR_WIDTH) * i, -(barHeight * times[i]) / maxTime);
+    ctx.fillText(Math.round(times[i]), CLOUD_X + GAP + TEXT_WIDTH + (GAP * 4 + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP * 6 - (barHeight * times[i]) / maxTime);
   }
 };
