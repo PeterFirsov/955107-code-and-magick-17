@@ -1,20 +1,32 @@
 'use strict';
 
-var CLOUD_WIDTH = 420;
-var CLOUD_HEIGHT = 270;
-var CLOUD_X = 100;
-var CLOUD_Y = 10;
-var GAP = 10;
-var FONT_GAP = 15;
-var WIN_GAP = 130;
-var TEXT_WIDTH = 50;
-var barHeight = CLOUD_HEIGHT - GAP - FONT_GAP - WIN_GAP - GAP;
-var BAR_WIDTH = 40;
-var center = CLOUD_WIDTH / 2;
+var Cloud = {
+  width: 420,
+  height: 270,
+  x: 100,
+  y: 10
+};
+var gapY = {
+  simple: 10,
+  text: 15,
+  win: 130
+};
+var gapX = {
+  bar: 40,
+  text: 50
+};
+var barHeight = Cloud.height - gapY.text - gapY.win - gapY.simple * 2;
+var center = Cloud.width / 2;
 
-var renderCloud = function (ctx, x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+var renderRectangle = function (ctx, x, y, width, height, color) {
+  ctx.fillStyle = color || 'red';
+  ctx.fillRect(x, y, width, height);
+};
+
+var drawText = function (ctx, text, x, y, font, color) {
+  ctx.fillStyle = color || '#000';
+  ctx.font = font || '16px PT Mono';
+  ctx.fillText(text, x, y);
 };
 
 var getMaxElement = function (arr) {
@@ -29,26 +41,21 @@ var getMaxElement = function (arr) {
 };
 
 window.renderStatistics = function (ctx, players, times) {
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderRectangle(ctx, Cloud.x + gapY.simple, Cloud.y + gapY.simple, Cloud.width, Cloud.height, 'rgba(0, 0, 0, 0.7)');
+  renderRectangle(ctx, Cloud.x, Cloud.y, Cloud.width, Cloud.height, '#fff');
 
-  ctx.fillStyle = '#000';
-  ctx.font = '16px PT Mono';
-  ctx.fillText('Ура вы победили!', center + GAP, CLOUD_Y + (GAP + FONT_GAP) * 1);
-  ctx.fillText('Список результатов:', center + GAP, CLOUD_Y + (GAP + FONT_GAP) * 2);
+  drawText(ctx, 'Ура вы победили!', center + gapY.simple, Cloud.y + (gapY.simple + gapY.text) * 1);
+  drawText(ctx, 'Список результатов:', center + gapY.simple, Cloud.y + (gapY.simple + gapY.text) * 2);
 
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
-    ctx.fillStyle = '#000';
-    ctx.fillText(players[i], CLOUD_X + GAP + TEXT_WIDTH + (GAP * 4 + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP);
-    if (players[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = 'hsl(' + 360 * Math.random() + ',' + (0 + 100 * Math.random()) + '%,' + (0 + 100 * Math.random()) + '%)';
-    }
-    ctx.fillRect(CLOUD_X + GAP + TEXT_WIDTH + (GAP * 4 + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP * 2 - FONT_GAP, BAR_WIDTH, -(barHeight * times[i]) / maxTime);
-    ctx.fillStyle = '#000';
-    ctx.fillText(Math.round(times[i]), CLOUD_X + GAP + TEXT_WIDTH + (GAP * 4 + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP * 6 - (barHeight * times[i]) / maxTime);
+    var positionX = Cloud.x + gapY.simple + gapX.text + (gapY.simple * 4 + gapX.bar) * i;
+    var dynamicPositionY = (barHeight * times[i]) / maxTime;
+    drawText(ctx, players[i], positionX, Cloud.height - gapY.simple);
+
+    renderRectangle(ctx, positionX, Cloud.height - gapY.simple * 2 - gapY.text, gapX.bar, -dynamicPositionY, (players[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(' + 360 * Math.random() + ',' + (0 + 100 * Math.random()) + '%,' + (0 + 100 * Math.random()) + '%)');
+
+    drawText(ctx, Math.round(times[i]), positionX, Cloud.height - gapY.simple * 6 - dynamicPositionY);
   }
 };
