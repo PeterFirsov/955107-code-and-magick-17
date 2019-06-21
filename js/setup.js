@@ -17,17 +17,11 @@ var wizards = [];
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
-var nameInput = setup.querySelector('input[name="username"]');
 
 var onPopupEscPress = function (evt) {
-  if (nameInput === document.activeElement) {
-    return evt;
-  } else {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
-    }
+  if (evt.keyCode === ESC_KEYCODE && !evt.target.classList.contains('setup-user-name')) {
+    closePopup();
   }
-  return evt;
 };
 
 var openPopup = function () {
