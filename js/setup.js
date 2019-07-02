@@ -18,10 +18,20 @@ var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
 
+var startPositions = {
+  x: getComputedStyle(setup)['left'],
+  y: getComputedStyle(setup)['top']
+};
+
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE && !evt.target.classList.contains('setup-user-name')) {
     closePopup();
   }
+};
+
+var returnSetup = function () {
+  setup.style.top = startPositions.y;
+  setup.style.left = startPositions.x;
 };
 
 var openPopup = function () {
@@ -46,11 +56,13 @@ setupOpen.addEventListener('keydown', function (evt) {
 
 setupClose.addEventListener('click', function () {
   closePopup();
+  returnSetup();
 });
 
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
+    returnSetup();
   }
 });
 
