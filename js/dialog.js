@@ -42,9 +42,8 @@ var setEvent = function (toggle, element) {
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-        // eslint-disable-next-line no-shadow
-        var onClickPreventDefault = function (evt) {
-          evt.preventDefault();
+        var onClickPreventDefault = function (e) {
+          e.preventDefault();
           toggle.removeEventListener('click', onClickPreventDefault);
         };
         toggle.addEventListener('click', onClickPreventDefault);
