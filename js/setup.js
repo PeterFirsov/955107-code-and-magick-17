@@ -11,7 +11,6 @@
   window.colorize(wizardCoatColor);
   window.colorize(wizardfireballColor);
   window.colorize(wizardEyeColor);
-  window.render();
 
   document.querySelector('.setup-similar').classList.remove('hidden');
 
