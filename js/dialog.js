@@ -124,4 +124,14 @@
     addParentEvent(artifactCell[j], artifact);
   }
 
+  var onSuccess = function () {
+    setupDialogElement.classList.add('hidden');
+  };
+
+  var form = setupDialogElement.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(onSuccess, window.backend.errorHandler, new FormData(form));
+    evt.preventDefault();
+  });
+
 })();
