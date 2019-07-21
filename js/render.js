@@ -3,6 +3,7 @@
 (function () {
   var WIZARD_COUNT = 4;
   var wizards = [];
+  var fitered = [];
 
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template')
@@ -19,21 +20,37 @@
     return wizardElement;
   };
 
-  var renderWizards = function () {
+  var removeWizards = function () {
+    similarListElement.innerHTML = '';
+  };
+
+  var renderWizards = function (array) {
+    var takeNumber = array.length > 4 ? 4 : array.length;
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < wizards.length; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
+    removeWizards();
+
+    for (var i = 0; i < takeNumber; i++) {
+      fragment.appendChild(renderWizard(array[i]));
     }
 
     similarListElement.appendChild(fragment);
+
+    document.querySelector('.setup-similar').classList.remove('hidden');
   };
 
   var onSuccess = function (data) {
     wizards = data.slice(0, WIZARD_COUNT);
-    renderWizards();
+    fitered = data.slice();
+    renderWizards(wizards);
   };
 
   window.backend.load(onSuccess, window.backend.errorHandler);
 
+  window.wizards = {
+    render: renderWizards,
+    data: function () {
+      return fitered;
+    }
+  };
 })();
