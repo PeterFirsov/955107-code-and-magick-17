@@ -23,10 +23,14 @@
       if (element === wizardCoatColor) {
         var color = getRandomColor(COAT_COLORS);
         coatInput.value = color;
+        window.coatColor = color;
+        window.debounce(window.filterIt);
       }
       if (element === wizardEyeColor) {
         color = getRandomColor(EYE_COLORS);
         eyeInput.value = color;
+        window.eyesColor = color;
+        window.debounce(window.filterIt);
       }
       if (element === wizardfireballColor) {
         color = getRandomColor(FIREBALL_COLORS);

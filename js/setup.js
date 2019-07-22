@@ -12,6 +12,4 @@
   window.colorize(wizardfireballColor);
   window.colorize(wizardEyeColor);
 
-  document.querySelector('.setup-similar').classList.remove('hidden');
-
 })();
